@@ -1,11 +1,4 @@
-/**
- * ==============================================================================
- * Author: James Rajawasam
- * Description: 404 "Not Found" error page component. Displays a user-friendly
- *              error status code, an informative message when a route doesn't exist,
- *              and a navigation link to return the user back to the home page.
- * ==============================================================================
- */
+
 import { Link } from 'react-router-dom';
 import './NotFound.css';
 

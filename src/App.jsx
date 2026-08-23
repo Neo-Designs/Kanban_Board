@@ -1,12 +1,4 @@
-/**
- * ==============================================================================
- * Author: James Rajawasam
- * Description: Root application component configuring React Router for client-side
- *              navigation. It establishes the global layout structure (Navbar,
- *              main content routing area, and Footer) and maps URL endpoints to
- *              their corresponding page components.
- * ==============================================================================
- */
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';

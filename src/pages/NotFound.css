@@ -1,12 +1,4 @@
-/**
- * ==============================================================================
- * Author: James Rajawasam
- * Description: Stylesheet for the 404 "Not Found" error page. It defines the 
- *              centered vertical flex layout, responsive typography scaling 
- *              for the error status code, descriptive headings, and call-to-action 
- *              button spacing.
- * ==============================================================================
- */
+
 .nf {
   display: flex;
   flex-direction: column;
