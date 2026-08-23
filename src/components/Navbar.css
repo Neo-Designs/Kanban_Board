@@ -1,0 +1,102 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--navbar-h);
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.nav-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.nav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--c-text);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.nav-link {
+  position: relative;
+  font-weight: 500;
+  color: var(--c-text-2);
+  padding: 0.25rem 0;
+  transition: color var(--t-fast);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: var(--c-primary);
+  border-radius: 2px;
+  transition: width var(--t-med);
+}
+
+.nav-link:hover { color: var(--c-primary); }
+
+.nav-link.active { color: var(--c-primary); }
+.nav-link.active::after { width: 100%; }
+
+.nav-cta-ghost { padding: 0.5rem 1rem; }
+.nav-cta { padding: 0.5rem 1.1rem; }
+
+.nav-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6px;
+}
+
+.nav-burger .bar {
+  width: 22px;
+  height: 2px;
+  background: var(--c-text);
+  border-radius: 2px;
+  transition: transform var(--t-med), opacity var(--t-fast);
+}
+
+.nav-burger .bar.open:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger .bar.open:nth-child(2) { opacity: 0; }
+.nav-burger .bar.open:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 800px) {
+  .nav-burger { display: flex; }
+  .nav-links {
+    position: absolute;
+    inset: var(--navbar-h) 0 auto 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--c-surface);
+    border-bottom: 1px solid var(--c-border);
+    box-shadow: var(--shadow-md);
+    padding: 0.5rem 1.25rem 1.25rem;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity var(--t-fast), transform var(--t-fast);
+  }
+  .nav-links.is-open { opacity: 1; pointer-events: auto; transform: none; }
+  .nav-link { padding: 0.75rem 0; }
+  .nav-cta, .nav-cta-ghost { justify-content: center; margin-top: 0.5rem; }
+}
