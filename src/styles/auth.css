@@ -1,0 +1,45 @@
+.auth {
+  display: flex;
+  justify-content: center;
+  padding-top: 3.5rem;
+}
+
+.auth-card {
+  width: min(420px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 1.05rem;
+  padding: 2.2rem;
+}
+
+.auth-title { font-size: 1.6rem; letter-spacing: -0.02em; }
+
+.auth-sub { color: var(--c-text-2); font-size: 0.95rem; margin-top: -0.4rem; }
+
+.field { display: flex; flex-direction: column; gap: 0.35rem; }
+
+.field > span { font-size: 0.85rem; font-weight: 600; color: var(--c-text-2); }
+
+.field input {
+  font-size: 0.95rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-sm);
+  background: var(--c-surface);
+  color: var(--c-text);
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+
+.field input::placeholder { color: var(--c-text-3); }
+
+.field input:focus {
+  border-color: var(--c-primary);
+  box-shadow: 0 0 0 3px rgba(107, 143, 98, 0.18);
+  outline: none;
+}
+
+.field-error { color: var(--c-danger); font-size: 0.78rem; font-weight: 500; }
+
+.auth-submit { margin-top: 0.4rem; }
+
+.auth-switch { font-size: 0.88rem; color: var(--c-text-2); text-align: center; }
