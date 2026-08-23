@@ -1,4 +1,3 @@
-// yash
 export const COLUMN_ACCENTS = ['#6b8f62', '#8a7a52', '#a07850', '#b08d3f', '#5e7d5a', '#5f7d6e'];
 
 export function seedBoard(boardId) {
