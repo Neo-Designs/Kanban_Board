@@ -1,0 +1,61 @@
+
+.board-card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  transition: transform var(--t-med), box-shadow var(--t-med);
+}
+
+.board-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+.board-card-accent {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+}
+
+.board-card-title {
+  font-size: 1.1rem;
+  color: var(--c-text);
+  margin-top: 0.2rem;
+}
+
+.board-card-desc {
+  color: var(--c-text-2);
+  font-size: 0.9rem;
+  margin-top: 0.4rem;
+  min-height: 2.6rem;
+}
+
+.board-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.board-card-date {
+  color: var(--c-text-3);
+  font-size: 0.82rem;
+}
+
+.board-card-delete {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  opacity: 0;
+  transition: opacity var(--t-fast), background var(--t-fast), color var(--t-fast);
+}
+
+.board-card:hover .board-card-delete { opacity: 1; }
+
+.board-open {
+  color: var(--c-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity var(--t-fast), transform var(--t-fast);
+}
+
+.board-card:hover .board-open { opacity: 1; transform: none; }
