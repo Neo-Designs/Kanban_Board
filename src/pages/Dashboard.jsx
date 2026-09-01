@@ -1,11 +1,11 @@
-
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BoardCard from '../components/BoardCard.jsx';
-import { createBoard, deleteBoard, loadBoards } from '../data/boardStore.js';
+import boardApi from '../api/boardApi.js';
+import authApi from '../api/authApi.js';
 import './Dashboard.css';
 
-function NewBoardModal({ onClose, onCreate }) {
+function NewBoardModal({ onClose, onCreate, creating }) {
   const [form, setForm] = useState({ title: '', description: '' });
 
   const onSubmit = (e) => {
@@ -37,8 +37,8 @@ function NewBoardModal({ onClose, onCreate }) {
         </label>
         <div className="modal-actions">
           <button type="button" className="btn btn-ghost" onClick={onClose}>Cancel</button>
-          <button type="submit" className="btn btn-primary" disabled={!form.title.trim()}>
-            Create board
+          <button type="submit" className="btn btn-primary" disabled={!form.title.trim() || creating}>
+            {creating ? 'Creating…' : 'Create board'}
           </button>
         </div>
       </form>
@@ -48,18 +48,78 @@ function NewBoardModal({ onClose, onCreate }) {
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const [boards, setBoards] = useState(() => loadBoards());
+  const [boards, setBoards] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [creating, setCreating] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const onCreate = (form) => {
-    const board = createBoard(form);
-    navigate(`/boards/${board.id}`);
+  const fetchBoards = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      const data = await boardApi.getBoards();
+      setBoards(data);
+    } catch (err) {
+      if (err.status === 401) {
+        navigate('/login');
+      } else {
+        setError(err.message || 'Failed to load boards.');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const onDelete = (id) => {
-    deleteBoard(id);
-    setBoards(loadBoards());
+  useEffect(() => {
+    if (!authApi.isLoggedIn()) {
+      navigate('/login');
+      return;
+    }
+    fetchBoards();
+  }, [navigate]);
+
+  const onCreate = async (form) => {
+    try {
+      setCreating(true);
+      const board = await boardApi.createBoard(form);
+      setShowModal(false);
+      navigate(`/boards/${board.id}`);
+    } catch (err) {
+      alert(err.message || 'Failed to create board.');
+    } finally {
+      setCreating(false);
+    }
   };
+
+  const onDelete = async (id) => {
+    try {
+      await boardApi.deleteBoard(id);
+      setBoards((prev) => prev.filter((b) => String(b.id) !== String(id)));
+    } catch (err) {
+      alert(err.message || 'Failed to delete board.');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="dashboard container" style={{ display: 'grid', placeItems: 'center', minHeight: '50vh' }}>
+        <p style={{ color: 'var(--c-text-2)', fontSize: '1rem' }}>Loading your boards…</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="dashboard container">
+        <div className="dash-empty card" style={{ borderColor: 'var(--c-danger)' }}>
+          <h2 style={{ color: 'var(--c-danger)', margin: '0 0 0.5rem 0' }}>Could not load boards</h2>
+          <p className="dash-empty-sub">{error}</p>
+          <button className="btn btn-primary" onClick={fetchBoards}>Try again</button>
+        </div>
+      </div>
+    );
+  }
 
   if (boards.length === 0) {
     return (
@@ -79,7 +139,13 @@ export default function Dashboard() {
             Get started
           </button>
         </div>
-        {showModal && <NewBoardModal onClose={() => setShowModal(false)} onCreate={onCreate} />}
+        {showModal && (
+          <NewBoardModal
+            onClose={() => setShowModal(false)}
+            onCreate={onCreate}
+            creating={creating}
+          />
+        )}
       </div>
     );
   }
@@ -101,7 +167,13 @@ export default function Dashboard() {
           <BoardCard key={b.id} board={b} onDelete={() => onDelete(b.id)} />
         ))}
       </div>
-      {showModal && <NewBoardModal onClose={() => setShowModal(false)} onCreate={onCreate} />}
+      {showModal && (
+        <NewBoardModal
+          onClose={() => setShowModal(false)}
+          onCreate={onCreate}
+          creating={creating}
+        />
+      )}
     </div>
   );
 }
