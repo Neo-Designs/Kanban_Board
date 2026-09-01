@@ -26,6 +26,15 @@
   --t-med: 260ms cubic-bezier(0.4, 0, 0.2, 1);
   --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --navbar-h: 64px;
+
+  /* yash: user/profile tokens for role badges & avatars */
+  --c-avatar-1: #6b8f62;
+  --c-avatar-2: #a07850;
+  --c-avatar-3: #5f7d6e;
+  --c-avatar-4: #8a7a52;
+  --c-role-lead: #6b8f62;
+  --c-role-architect: #5f7d6e;
+  --c-role-member: #8b8e7e;
 }
 
 * { box-sizing: border-box; }
@@ -76,4 +85,24 @@ textarea:focus-visible {
 .app-main {
   flex: 1;
   background: var(--c-bg);
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 600;
+  color: #fff;
+  background: var(--c-avatar-1);
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: var(--r-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--c-surface-2);
+  color: var(--c-text-2);
 }
