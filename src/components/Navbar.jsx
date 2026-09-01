@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import authApi from '../api/authApi.js';
 import './Navbar.css';
 
 function Logo() {
@@ -24,14 +25,12 @@ function Logo() {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const location = useLocation();
-  const isLoggedIn = localStorage.getItem('syncboard-logged-in') === 'true';
+  const navigate = useNavigate();
+  const isLoggedIn = authApi.isLoggedIn();
 
   const handleLogout = () => {
-    localStorage.removeItem('syncboard-logged-in');
-    localStorage.removeItem('syncboard-profile');
-    localStorage.removeItem('syncboard-first-time');
-    window.location.href = '/';
+    authApi.logout();
+    navigate('/');
   };
 
   const links = [
